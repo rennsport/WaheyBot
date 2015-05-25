@@ -1,4 +1,4 @@
-# waheybot
+# WaheyBot
 A Java based Twitch bot; its main function is to count Waheys in chat (or any other keyword)
 
 ### Dependencies:
