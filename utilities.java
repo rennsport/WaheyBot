@@ -8,7 +8,7 @@ import java.io.*;
 public class utilities{
 	public static int[] readhighscore() throws IOException{
 		int [] highscores = new int [2];
-    	Scanner scanner = new Scanner(new File("highscore.text"));
+    	Scanner scanner = new Scanner(new File("highscore.txt"));
 		int i = 0;
 		while(scanner.hasNextInt()){
 			highscores[i++] = scanner.nextInt();
@@ -27,5 +27,11 @@ public class utilities{
     		e.printStackTrace();
     	}
     	return st;
+    }
+    public static void print(int messages, int individual, String docname) throws IOException{
+    	PrintWriter writer = new PrintWriter(docname, "UTF-8");
+        writer.println(messages);
+        writer.println(individual);
+        writer.close();
     }
 }
