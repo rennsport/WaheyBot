@@ -87,7 +87,7 @@ public class WaheyBot extends PircBot{
             speak(channel, "God, KungFu is such a butt face");
         }
 
-        if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!  ")){
+        if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!philip")){
             speak(channel, "The only person worse than Philip is Kungfu");
         }
 
