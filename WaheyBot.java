@@ -47,21 +47,21 @@ public class WaheyBot extends PircBot{
             if(highscores[1] < wahey && highscores[0] < waheymessage){
             	speak(channel, "Chat beat both the previous message score of " + highscores[0] + " by sending " + waheymessage + " messages containing Wahey AND the previous wahey score of " + highscores[0] + " by sending " + wahey + " individual Waheys!");
             	try{
-					print(waheymessage, wahey, "highscore.text");
+					utilities.print(waheymessage, wahey, "highscore.txt");
 				}catch(IOException e){
 				};
             }
             else if(highscores[0] < waheymessage){
             	speak(channel, "Chat beat the previous message score of " + highscores[0] + " by sending " + waheymessage + " messages containing Wahey!");
             	try{
-					print(waheymessage, highscores[1], "highscore.text");
+					utilities.print(waheymessage, highscores[1], "highscore.txt");
 				}catch(IOException e){
 				};
             }
             else if(highscores[1] < wahey){
             	speak(channel, "Chat beat the previous wahey score of " + highscores[0] + " by sending " + wahey + " individual Waheys!");
             	try{
-					print(highscores[0], wahey, "highscore.text");
+					utilities.print(highscores[0], wahey, "highscore.txt");
 				}catch(IOException e){
 				};
 			}
@@ -140,13 +140,6 @@ public class WaheyBot extends PircBot{
     {
         sendMessage(channel, message);
         System.out.println(" WaheyBot: " + message);
-    }
-
-    private void print(int messages, int individual, String docname) throws IOException{
-        PrintWriter writer = new PrintWriter(docname, "UTF-8");
-        writer.println(messages);
-        writer.println(individual);
-        writer.close();
     }
 
     /*private int[] readhighscore() throws IOException{
