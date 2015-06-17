@@ -13,7 +13,6 @@ public class WaheyBot extends PircBot{
     int [] highscores = new int [2];
     long starttime = System.currentTimeMillis();
     boolean messagesent = true;
-    setMessageDelay(2500);
     public WaheyBot(){
         this.setName("WaheyBot");
     }

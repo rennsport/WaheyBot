@@ -12,6 +12,7 @@ InputThread.class
 IrcException.class
 java-json.jar
 NickAlreadyInUseException.class
+oauth.txt
 OutputThread.class
 pircbot.class
 pircbot.jar
