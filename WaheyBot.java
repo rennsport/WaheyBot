@@ -13,6 +13,7 @@ public class WaheyBot extends PircBot{
     int [] highscores = new int [2];
     long starttime = System.currentTimeMillis();
     boolean messagesent = true;
+    setMessageDelay(2500);
     public WaheyBot(){
         this.setName("WaheyBot");
     }
@@ -80,7 +81,7 @@ public class WaheyBot extends PircBot{
         }
 
         if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!tattoo")){
-        	speak(channel, "https://pbs.twimg.com/media/B6UWZN7CUAAn-ME.jpg");
+        	speak(channel, "https://pbs.twimg.com/media/B6UWZN7CUAAn-ME.jpg and WIP: https://twitter.com/Nospimi99/status/606279392365387776");
         }
 
         if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!kungfu")){
@@ -105,6 +106,11 @@ public class WaheyBot extends PircBot{
 			}catch(IOException e){
 			};
 			speak(channel, "The record for the most messages containing Wahey is " + highscores[0] + " and the record for the most individual Waheys is " + highscores[1] + "!");
+        }
+
+        if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!multi")){
+            
+            speak(channel, "http://kadgar.net/live/nospimi99/firedragon764/kungfufruitcup/misskyliee");
         }
     }
 
