@@ -10,5 +10,7 @@ public class WaheyBotMain {
         bot.connect("irc.twitch.tv", 6667, oauth);
         bot.joinChannel("#nospimi99");
         //bot.sendRawLine("CAP REQ :twitch.tv/tags");
+        bot.sendRawLine("CAP REQ :twitch.tv/commands");
+
     }
 }

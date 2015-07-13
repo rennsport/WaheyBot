@@ -11,8 +11,11 @@ public class WaheyBot extends PircBot{
     int waheymessage = 0;
     int nonwaheys = 0;
     int [] highscores = new int [2];
+    int waheypersecondtime = 0
     long starttime = System.currentTimeMillis();
     boolean messagesent = true;
+    boolean waheypersecond = false;
+
     public WaheyBot(){
         this.setName("WaheyBot");
     }
@@ -25,6 +28,10 @@ public class WaheyBot extends PircBot{
             wahey += StringUtils.countMatches(message.toLowerCase(), "wahey") + StringUtils.countMatches(message.toLowerCase(), "wahay");
             waheymessage++;
             messagesent = false;
+            if(waheypersecond == false){
+                waheypersecondtime = System.currentTimeMillis();
+                waheypersecond = true;
+            }
         }
 
         if((StringUtils.containsIgnoreCase(message, "wahey") == false) && (StringUtils.containsIgnoreCase(message, "wahay") == false)){
@@ -33,6 +40,7 @@ public class WaheyBot extends PircBot{
 
         if(((nonwaheys >= 5 || System.currentTimeMillis() - starttime > 45000)) && waheymessage < 15){
         	messagesent = true;
+            waheypersecond = false;
             wahey = 0;
             waheymessage = 0;
         }
@@ -42,7 +50,7 @@ public class WaheyBot extends PircBot{
 				highscores = utilities.readhighscore();
 			}catch(IOException e){
 			};
-            speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!");
+            speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!" + "We also sent Waheys at" + wahey/(System.currentTimeMillis-waheypersecondtime) + "per second!");
             setMessageDelay(1501);
             if(highscores[1] < wahey && highscores[0] < waheymessage){
             	speak(channel, "Chat beat both the previous message score of " + highscores[0] + " by sending " + waheymessage + " messages containing Wahey AND the previous wahey score of " + highscores[0] + " by sending " + wahey + " individual Waheys!");
