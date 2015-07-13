@@ -55,7 +55,7 @@ public class WaheyBot extends PircBot{
             speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!" + " We also sent Waheys at " + ((double)wahey/(waheypersecondtimeend-waheypersecondtime)) + " per second!"); //posts the waheys it has counted and the messages and the waheys per second
             setMessageDelay(1501); // sets message delay to the smallest Twitch legal amount for a non-mod
             if(highscores[1] < wahey && highscores[0] < waheymessage){ // checks to see if the wahey message count and wahey count beats the highscore
-            	speak(channel, "Chat beat both the previous message score of " + highscores[0] + " by sending " + waheymessage + " messages containing Wahey AND the previous wahey score of " + highscores[0] + " by sending " + wahey + " individual Waheys!");
+            	speak(channel, "Chat beat both the previous message score of " + highscores[0] + " by sending " + waheymessage + " messages containing Wahey AND the previous wahey score of " + highscores[1] + " by sending " + wahey + " individual Waheys!");
             	try{
 					utilities.print(waheymessage, wahey, "highscore.txt"); //writes new highscores
 				}catch(IOException e){
@@ -69,7 +69,7 @@ public class WaheyBot extends PircBot{
 				};
             }
             else if(highscores[1] < wahey){ // and finally if the other two failed we check if the total wahey count was beaten
-            	speak(channel, "Chat beat the previous wahey score of " + highscores[0] + " by sending " + wahey + " individual Waheys!");
+            	speak(channel, "Chat beat the previous wahey score of " + highscores[1] + " by sending " + wahey + " individual Waheys!");
             	try{
 					utilities.print(highscores[0], wahey, "highscore.txt"); //writes new highscore
 				}catch(IOException e){
