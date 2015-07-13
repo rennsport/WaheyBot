@@ -25,7 +25,7 @@ public class WaheyBot extends PircBot{
         setMessageDelay(2500); // we reset the message delay at this as to make sure the bot doesn't get global'd
         if((StringUtils.containsIgnoreCase(message, "wahey") == true) || (StringUtils.containsIgnoreCase(message, "wahay") == true)){ // allows all forms of Wahey and Wahay (e.g. WahEY and waHaY)
             starttime = System.currentTimeMillis(); //always resets the time to 0 if a wahey is posted beause 45 seconds after no waheys are posted the bot will either post the count or do nothing if the count is less than 15
-            waheypersecondtimeend = (System.currentTimeMillis()/1000) //takes the time when a wahey is sent
+            waheypersecondtimeend = (System.currentTimeMillis()/1000); //takes the time when a wahey is sent
             nonwaheys = 0; // upon each wahey or wahay posted the non-waheys are reset to zero because they would no longer be consecitive which would make the bot either post the count or do nothing if the count is less than 15
             wahey += StringUtils.countMatches(message.toLowerCase(), "wahey") + StringUtils.countMatches(message.toLowerCase(), "wahay"); // this addes the total waheys in every message together
             waheymessage++; // total messages
