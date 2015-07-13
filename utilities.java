@@ -6,7 +6,7 @@ import java.lang.*;
 import java.io.*;
 
 public class utilities{
-	public static int[] readhighscore() throws IOException{
+	public static int[] readhighscore() throws IOException{ //reads highscores by storing each new int in an int array
 		int [] highscores = new int [2];
     	Scanner scanner = new Scanner(new File("highscore.txt"));
 		int i = 0;
@@ -15,7 +15,7 @@ public class utilities{
 		}
 		return highscores;
     }
-    public static String readfile(String fileName) {
+    public static String readfile(String fileName) { // file reader for oauth token
     	String st = "";
     	try {
     		Scanner scanner = new Scanner(new File(fileName));
@@ -28,7 +28,7 @@ public class utilities{
     	}
     	return st;
     }
-    public static void print(int messages, int individual, String docname) throws IOException{
+    public static void print(int messages, int individual, String docname) throws IOException{ //method for printing new highscores
     	PrintWriter writer = new PrintWriter(docname, "UTF-8");
         writer.println(messages);
         writer.println(individual);
