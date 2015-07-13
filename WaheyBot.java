@@ -11,7 +11,7 @@ public class WaheyBot extends PircBot{
     int waheymessage = 0;
     int nonwaheys = 0;
     int [] highscores = new int [2];
-    int waheypersecondtime = 0
+    int waheypersecondtime = 0;
     long starttime = System.currentTimeMillis();
     boolean messagesent = true;
     boolean waheypersecond = false;
