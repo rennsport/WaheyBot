@@ -158,3 +158,4 @@ public class WaheyBot extends PircBot{
 		return highscores;
     }*/
 }
+ 
