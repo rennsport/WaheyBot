@@ -116,13 +116,12 @@ public class WaheyBot extends PircBot{
         }
 
         if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!multi")){
-            
+
             speak(channel, "http://kadgar.net/live/nospimi99/firedragon764/kungfufruitcup/misskyliee");
         }
     }
 
-    protected void onJoin(String channel, String sender, String login, String hostname)
-    {
+    protected void onJoin(String channel, String sender, String login, String hostname){
         if (sender.equals("WaheyBot"))
         {
             speak(channel, "/me is now in this channel and ready to count!");
@@ -144,8 +143,7 @@ public class WaheyBot extends PircBot{
         }
     }
 
-    private void speak(String channel, String message)
-    {
+    private void speak(String channel, String message){
         sendMessage(channel, message);
         System.out.println(" WaheyBot: " + message);
     }
