@@ -11,7 +11,7 @@ public class WaheyBot extends PircBot{
     int waheymessage = 0;
     int nonwaheys = 0;
     int [] highscores = new int [2];
-    int waheypersecondtime = 0;
+    long waheypersecondtime = 0;
     long starttime = System.currentTimeMillis();
     boolean messagesent = true;
     boolean waheypersecond = false;
@@ -50,7 +50,7 @@ public class WaheyBot extends PircBot{
 				highscores = utilities.readhighscore();
 			}catch(IOException e){
 			};
-            speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!" + "We also sent Waheys at" + wahey/(System.currentTimeMillis-waheypersecondtime) + "per second!");
+            speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!" + "We also sent Waheys at" + wahey/(System.currentTimeMillis()-waheypersecondtime) + "per second!");
             setMessageDelay(1501);
             if(highscores[1] < wahey && highscores[0] < waheymessage){
             	speak(channel, "Chat beat both the previous message score of " + highscores[0] + " by sending " + waheymessage + " messages containing Wahey AND the previous wahey score of " + highscores[0] + " by sending " + wahey + " individual Waheys!");
