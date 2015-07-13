@@ -20,65 +20,65 @@ public class WaheyBot extends PircBot{
         this.setName("WaheyBot");
     }
 
-    public void onMessage(String channel, String sender, String login, String hostname, String message){
-        setMessageDelay(2500);
-        if((StringUtils.containsIgnoreCase(message, "wahey") == true) || (StringUtils.containsIgnoreCase(message, "wahay") == true)){
-            starttime = System.currentTimeMillis();
-            nonwaheys = 0;
-            wahey += StringUtils.countMatches(message.toLowerCase(), "wahey") + StringUtils.countMatches(message.toLowerCase(), "wahay");
-            waheymessage++;
+    public void onMessage(String channel, String sender, String login, String hostname, String message){ //detects the first Wahey and allows future ones to be counted.
+        setMessageDelay(2500); // we reset the message delay at this as to make sure the bot doesn't get global'd
+        if((StringUtils.containsIgnoreCase(message, "wahey") == true) || (StringUtils.containsIgnoreCase(message, "wahay") == true)){ // allows all forms of Wahey and Wahay (e.g. WahEY and waHaY)
+            starttime = System.currentTimeMillis(); //always resets the time to 0 if a wahey is posted beause 45 seconds after no waheys are posted the bot will either post the count or do nothing if the count is less than 15
+            nonwaheys = 0; // upon each wahey or wahay posted the non-waheys are reset to zero because they would no longer be consecitive which would make the bot either post the count or do nothing if the count is less than 15
+            wahey += StringUtils.countMatches(message.toLowerCase(), "wahey") + StringUtils.countMatches(message.toLowerCase(), "wahay"); // this addes the total waheys in every message together
+            waheymessage++; // total messages
             messagesent = false;
-            if(waheypersecond == false){
+            if(waheypersecond == false){ //not working atm
                 waheypersecondtime = System.currentTimeMillis();
                 waheypersecond = true;
             }
         }
 
-        if((StringUtils.containsIgnoreCase(message, "wahey") == false) && (StringUtils.containsIgnoreCase(message, "wahay") == false)){
+        if((StringUtils.containsIgnoreCase(message, "wahey") == false) && (StringUtils.containsIgnoreCase(message, "wahay") == false)){ // adds up consecutive non-waheys
             nonwaheys+=1;
         }
 
-        if(((nonwaheys >= 5 || System.currentTimeMillis() - starttime > 45000)) && waheymessage < 15){
+        if(((nonwaheys >= 5 || System.currentTimeMillis() - starttime > 45000)) && waheymessage < 15){ //this makes the bot do nothing if the count isn't above 15 after 5 consecutive non-waheys or 45 seconds
         	messagesent = true;
             waheypersecond = false;
             wahey = 0;
             waheymessage = 0;
         }
 
-        else if(((nonwaheys >= 5) && (messagesent == false)) || ((System.currentTimeMillis() - starttime > 45000) && (messagesent == false))){
-        	try{
+        else if(((nonwaheys >= 5) && (messagesent == false)) || ((System.currentTimeMillis() - starttime > 45000) && (messagesent == false))){ //This gets confusing so bare with me
+        	try{ //reads highscore file
 				highscores = utilities.readhighscore();
 			}catch(IOException e){
 			};
-            speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!" + "We also sent Waheys at" + wahey/(System.currentTimeMillis()-waheypersecondtime) + "per second!");
-            setMessageDelay(1501);
-            if(highscores[1] < wahey && highscores[0] < waheymessage){
+            speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!" + "We also sent Waheys at " + wahey/(System.currentTimeMillis()-waheypersecondtime) + " per second!"); //posts the waheys it has counted and the messages and (if it worked) the waheys per second
+            setMessageDelay(1501); // sets message delay to the smallest Twitch legal amount for a non-mod
+            if(highscores[1] < wahey && highscores[0] < waheymessage){ // checks to see if the wahey message count and wahey count beats the highscore
             	speak(channel, "Chat beat both the previous message score of " + highscores[0] + " by sending " + waheymessage + " messages containing Wahey AND the previous wahey score of " + highscores[0] + " by sending " + wahey + " individual Waheys!");
             	try{
-					utilities.print(waheymessage, wahey, "highscore.txt");
+					utilities.print(waheymessage, wahey, "highscore.txt"); //writes new highscores
 				}catch(IOException e){
 				};
             }
-            else if(highscores[0] < waheymessage){
+            else if(highscores[0] < waheymessage){ // if not we check if the message count beat the highscore
             	speak(channel, "Chat beat the previous message score of " + highscores[0] + " by sending " + waheymessage + " messages containing Wahey!");
             	try{
-					utilities.print(waheymessage, highscores[1], "highscore.txt");
+					utilities.print(waheymessage, highscores[1], "highscore.txt"); //writes new highscore
 				}catch(IOException e){
 				};
             }
-            else if(highscores[1] < wahey){
+            else if(highscores[1] < wahey){ // and finally if the other two failed we check if the total wahey count was beaten
             	speak(channel, "Chat beat the previous wahey score of " + highscores[0] + " by sending " + wahey + " individual Waheys!");
             	try{
-					utilities.print(highscores[0], wahey, "highscore.txt");
+					utilities.print(highscores[0], wahey, "highscore.txt"); //writes new highscore
 				}catch(IOException e){
 				};
 			}
-			setMessageDelay(2500);
-            messagesent = true;
-            wahey = 0;
-            waheymessage = 0;
+			setMessageDelay(2500); // global prevention
+            messagesent = true; // resetting the bot so it doesn't spam
+            wahey = 0; // counts need to be reest too
+            waheymessage = 0; // ^
         }
-
+        // the following are custom commands and they will soon be moved to a JSON file, but I'm busy.
         if(message.equalsIgnoreCase("!info") || message.equalsIgnoreCase("information")){
             speak(channel, "Hi! My name is WaheyBot, and I am a bot made by 911rennsport AKA renn. My initial purpose was to count the number of Waheys posted to chat just to \"annoy\" Nospimi99; however, now I sit in chat and try to be helpful.");
         }
@@ -121,6 +121,7 @@ public class WaheyBot extends PircBot{
         }
     }
 
+    //this doesn't work I should just remove it
     protected void onJoin(String channel, String sender, String login, String hostname){
         if (sender.equals("WaheyBot"))
         {
@@ -128,7 +129,7 @@ public class WaheyBot extends PircBot{
         }
         System.out.println(" <" + sender + " entered>");
     }
-
+    //reconnects on disconnect
     protected void onDisconnect(){
         while (!isConnected()) {
             try {
@@ -143,6 +144,7 @@ public class WaheyBot extends PircBot{
         }
     }
 
+    //made it so I didnt need to type sendMessage(channel, message) all the time and shows the bot's messages in chat
     private void speak(String channel, String message){
         sendMessage(channel, message);
         System.out.println(" WaheyBot: " + message);
@@ -158,4 +160,3 @@ public class WaheyBot extends PircBot{
 		return highscores;
     }*/
 }
- 
