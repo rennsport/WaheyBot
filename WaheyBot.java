@@ -80,7 +80,7 @@ public class WaheyBot extends PircBot{
             wahey = 0; // counts need to be reest too
             waheymessage = 0; // ^
         }
-// the following are custom commands and they will soon be moved to a JSON file, but I'm busy.
+        // the following are custom commands and they will soon be moved to a JSON file, but I'm busy.
         if(message.equalsIgnoreCase("!info") || message.equalsIgnoreCase("information")){
             speak(channel, "Hi! My name is WaheyBot, and I am a bot made by 911rennsport AKA renn. My initial purpose was to count the number of Waheys posted to chat just to \"annoy\" Nospimi99; however, now I sit in chat and try to be helpful.");
         }
@@ -118,20 +118,20 @@ public class WaheyBot extends PircBot{
         }
 
         if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!multi")){
-            
+
             speak(channel, "http://kadgar.net/live/nospimi99/firedragon764/kungfufruitcup/misskyliee");
         }
     }
-//this doesn't work I should just remove it
-    protected void onJoin(String channel, String sender, String login, String hostname)
-    {
+
+    //this doesn't work I should just remove it
+    protected void onJoin(String channel, String sender, String login, String hostname){
         if (sender.equals("WaheyBot"))
         {
             speak(channel, "/me is now in this channel and ready to count!");
         }
         System.out.println(" <" + sender + " entered>");
     }
-//reconnects on disconnect
+    //reconnects on disconnect
     protected void onDisconnect(){
         while (!isConnected()) {
             try {
@@ -145,9 +145,9 @@ public class WaheyBot extends PircBot{
             }
         }
     }
-//made it so I didnt need to type sendMessage(channel, message) all the time and shows the bot's messages in chat
-    private void speak(String channel, String message)
-    {
+
+    //made it so I didnt need to type sendMessage(channel, message) all the time and shows the bot's messages in chat
+    private void speak(String channel, String message){
         sendMessage(channel, message);
         System.out.println(" WaheyBot: " + message);
     }
