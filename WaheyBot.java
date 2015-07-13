@@ -12,6 +12,7 @@ public class WaheyBot extends PircBot{
     int nonwaheys = 0;
     int [] highscores = new int [2];
     long waheypersecondtime = 0;
+    long waheypersecondtimeend = 0;
     long starttime = System.currentTimeMillis();
     boolean messagesent = true;
     boolean waheypersecond = false;
@@ -24,12 +25,13 @@ public class WaheyBot extends PircBot{
         setMessageDelay(2500); // we reset the message delay at this as to make sure the bot doesn't get global'd
         if((StringUtils.containsIgnoreCase(message, "wahey") == true) || (StringUtils.containsIgnoreCase(message, "wahay") == true)){ // allows all forms of Wahey and Wahay (e.g. WahEY and waHaY)
             starttime = System.currentTimeMillis(); //always resets the time to 0 if a wahey is posted beause 45 seconds after no waheys are posted the bot will either post the count or do nothing if the count is less than 15
+            waheypersecondtimeend = (System.currentTimeMillis()/1000) //takes the time when a wahey is sent
             nonwaheys = 0; // upon each wahey or wahay posted the non-waheys are reset to zero because they would no longer be consecitive which would make the bot either post the count or do nothing if the count is less than 15
             wahey += StringUtils.countMatches(message.toLowerCase(), "wahey") + StringUtils.countMatches(message.toLowerCase(), "wahay"); // this addes the total waheys in every message together
             waheymessage++; // total messages
             messagesent = false;
-            if(waheypersecond == false){ //not working atm
-                waheypersecondtime = System.currentTimeMillis();
+            if(waheypersecond == false){ //sets a long to time in seconds the first wahey was sent
+                waheypersecondtime = (System.currentTimeMillis()/1000);
                 waheypersecond = true;
             }
         }
@@ -50,7 +52,7 @@ public class WaheyBot extends PircBot{
 				highscores = utilities.readhighscore();
 			}catch(IOException e){
 			};
-            speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!" + "We also sent Waheys at " + wahey/(System.currentTimeMillis()-waheypersecondtime) + " per second!"); //posts the waheys it has counted and the messages and (if it worked) the waheys per second
+            speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!" + " We also sent Waheys at " + ((double)wahey/(waheypersecondtimeend-waheypersecondtime)) + " per second!"); //posts the waheys it has counted and the messages and the waheys per second
             setMessageDelay(1501); // sets message delay to the smallest Twitch legal amount for a non-mod
             if(highscores[1] < wahey && highscores[0] < waheymessage){ // checks to see if the wahey message count and wahey count beats the highscore
             	speak(channel, "Chat beat both the previous message score of " + highscores[0] + " by sending " + waheymessage + " messages containing Wahey AND the previous wahey score of " + highscores[0] + " by sending " + wahey + " individual Waheys!");
