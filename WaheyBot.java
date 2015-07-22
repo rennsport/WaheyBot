@@ -100,7 +100,7 @@ public class WaheyBot extends PircBot{
                 speak(channel, "The only person worse than Philip is Kungfu");
             }
             if(message.equalsIgnoreCase("!DCW") || (StringUtils.containsIgnoreCase(message, "DCW")) && (StringUtils.containsIgnoreCase(message, "?"))){
-                speak(channel, "@" + sender ", DCW stands for Delayed Cutscene Warp and is basically a Wrong Warp to the final boss using an exploit in Witchyworld. The Any% w/DCW WR takes just under an hour, but without DCW the WR is just under 3 hours.");
+                speak(channel, "@" + sender + ", DCW stands for Delayed Cutscene Warp and is basically a Wrong Warp to the final boss using an exploit in Witchyworld. The Any% w/DCW WR takes just under an hour, but without DCW the WR is just under 3 hours.");
             }
             if(message.equalsIgnoreCase("!SGDQ")){
                 speak(channel, " SGDQ stands for Summer games done quick and is a week long speed running marathon that raises money for charity that takes place usually in June or July. for more informtation go to https://gamesdonequick.com/");
