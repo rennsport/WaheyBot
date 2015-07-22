@@ -81,7 +81,7 @@ public class WaheyBot extends PircBot{
             waheymessage = 0; // ^
         }
         // the following are custom commands and they will soon be moved to a JSON file, but I'm busy.
-        if(message.equalsIgnoreCase("!info") || message.equalsIgnoreCase("information")){
+        if(message.equalsIgnoreCase("!info") || message.equalsIgnoreCase("!information")){
             speak(channel, "Hi! My name is WaheyBot, and I am a bot made by 911rennsport AKA renn. My initial purpose was to count the number of Waheys posted to chat just to \"annoy\" Nospimi99; however, now I sit in chat and try to be helpful.");
         }
 
@@ -89,12 +89,13 @@ public class WaheyBot extends PircBot{
             speak(channel, "There are no longer any limitations! Let any form of Wahey fly free!");
         }
 
-        if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!tattoo")){
-        	speak(channel, "https://pbs.twimg.com/media/B6UWZN7CUAAn-ME.jpg and WIP: https://twitter.com/Nospimi99/status/606279392365387776");
-        }
-
-        if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!kungfu")){
-            speak(channel, "God, KungFu is such a butt face");
+        if(channel.equals("#nospimi99")){
+            if(message.equalsIgnoreCase("!tattoo")){
+                speak(channel, "https://pbs.twimg.com/media/B6UWZN7CUAAn-ME.jpg and WIP: https://twitter.com/Nospimi99/status/606279392365387776");
+            }
+            if(message.equalsIgnoreCase(!"kungfu")){
+                speak(channel, "God, KungFu is such a butt face");
+            }
         }
 
         if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!philip")){
