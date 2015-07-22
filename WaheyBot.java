@@ -93,7 +93,7 @@ public class WaheyBot extends PircBot{
             if(message.equalsIgnoreCase("!tattoo")){
                 speak(channel, "https://pbs.twimg.com/media/B6UWZN7CUAAn-ME.jpg and WIP: https://twitter.com/Nospimi99/status/606279392365387776");
             }
-            if(message.equalsIgnoreCase(!"kungfu")){
+            if(message.equalsIgnoreCase("!kungfu")){
                 speak(channel, "God, KungFu is such a butt face");
             }
         }
