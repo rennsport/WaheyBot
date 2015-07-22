@@ -109,6 +109,20 @@ public class WaheyBot extends PircBot{
             speak(channel, "This is Super Mario 64 Chaos Edition, a ROM hack in which random Gameshark codes are activated every 5 seconds. Prolonged codes wear off after 30 seconds.");
         }
 
+        if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!DCW")){
+            speak(channel, "DCW stands for Delayed Cutscene Warp and is basically a Wrong Warp to the final boss using an exploit in Witchyworld. The Any% w/DCW WR takes just under an hour, but without DCW the WR is just under 3 hours.
+");
+        }
+
+        if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!SGDQ")){
+            speak(channel, " SGDQ stands for Summer games done quick and is a week long speed running marathon that raises money for charity that takes place usually in June or July. for more informtation go to https://gamesdonequick.com/
+");
+        }
+
+        if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!AGDQ")){
+            speak(channel, "AGDQ stands for Awesome games done quick and is a week long speed running marathon that raises money for charity that takes place usually in January. for more informtation go to https://gamesdonequick.com/");
+        }
+
         if(channel.equals("#nospimi99") && message.equalsIgnoreCase("!waheyrecord")){
         	try{
 				highscores = utilities.readhighscore();
