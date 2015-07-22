@@ -99,7 +99,7 @@ public class WaheyBot extends PircBot{
             if(message.equalsIgnoreCase("!philip")){
                 speak(channel, "The only person worse than Philip is Kungfu");
             }
-            if(message.equalsIgnoreCase("!DCW")){
+            if(message.equalsIgnoreCase("!DCW") || (message.containsIgnoreCase("DCW") && (message.containsIgnoreCase("?")))){
                 speak(channel, "DCW stands for Delayed Cutscene Warp and is basically a Wrong Warp to the final boss using an exploit in Witchyworld. The Any% w/DCW WR takes just under an hour, but without DCW the WR is just under 3 hours.");
             }
             if(message.equalsIgnoreCase("!SGDQ")){
