@@ -85,7 +85,7 @@ public class WaheyBot extends PircBot{
             speak(channel, "Hi! My name is WaheyBot, and I am a bot made by 911rennsport AKA renn. My initial purpose was to count the number of Waheys posted to chat just to \"annoy\" Nospimi99; however, now I sit in chat and try to be helpful.");
         }
 
-        if(message.equalsIgnoreCase("!wahey") || message.equalsIgnoreCase("waheyinfo") || message.equalsIgnoreCase("!wahay") || message.equalsIgnoreCase("!wahayinfo")){
+        if(message.equalsIgnoreCase("!wahey") || message.equalsIgnoreCase("!waheyinfo") || message.equalsIgnoreCase("!wahay") || message.equalsIgnoreCase("!wahayinfo")){
             speak(channel, "There are no longer any limitations! Let any form of Wahey fly free!");
         }
 
