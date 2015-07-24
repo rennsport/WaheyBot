@@ -81,8 +81,12 @@ public class WaheyBot extends PircBot{
             waheymessage = 0; // ^
         }
         // the following are custom commands and they will soon be moved to a JSON file, but I'm busy.
-        if(message.equalsIgnoreCase("!info") || message.equalsIgnoreCase("!information")){
+        /*if(message.equalsIgnoreCase("!info") || message.equalsIgnoreCase("!information")){
             speak(channel, "Hi! My name is WaheyBot, and I am a bot made by 911rennsport AKA renn. My initial purpose was to count the number of Waheys posted to chat just to \"annoy\" Nospimi99; however, now I sit in chat and try to be helpful.");
+        }*/
+
+        if(message.equalsIgnoreCase("!info") || message.equalsIgnoreCase("!information")){
+            speak(channel, "http://pastebin.com/Pu3Bs5Sw");
         }
 
         if(message.equalsIgnoreCase("!wahey") || message.equalsIgnoreCase("!waheyinfo") || message.equalsIgnoreCase("!wahay") || message.equalsIgnoreCase("!wahayinfo")){
@@ -95,9 +99,6 @@ public class WaheyBot extends PircBot{
             }
             if(message.equalsIgnoreCase("!kungfu")){
                 speak(channel, "God, KungFu is such a butt face");
-            }
-            if(message.equalsIgnoreCase("!philip")){
-                speak(channel, "The only person worse than Philip is Kungfu");
             }
             if(message.equalsIgnoreCase("!DCW") || (StringUtils.containsIgnoreCase(message, "DCW")) && (StringUtils.containsIgnoreCase(message, "?"))){
                 speak(channel, "@" + sender + ", DCW stands for Delayed Cutscene Warp and is basically a Wrong Warp to the final boss using an exploit in Witchyworld. The Any% w/DCW WR takes just under an hour, but without DCW the WR is just under 3 hours.");
