@@ -4,7 +4,8 @@ import java.util.*;
 import java.math.*;
 import java.lang.*;
 import java.io.*;
-//import org.json.*;
+import org.json.*;
+import java.net.*;
 
 public class WaheyBot extends PircBot{
     int wahey = 0;
@@ -17,11 +18,14 @@ public class WaheyBot extends PircBot{
     boolean messagesent = true;
     boolean waheypersecond = false;
 
+    private String title;
+    private String game;
+
     public WaheyBot(){
         this.setName("WaheyBot");
     }
-
     public void onMessage(String channel, String sender, String login, String hostname, String message){ //detects the first Wahey and allows future ones to be counted.
+        String channelname = channel.substring(1);
         setMessageDelay(2500); // we reset the message delay at this as to make sure the bot doesn't get global'd
         if((StringUtils.containsIgnoreCase(message, "wahey") == true) || (StringUtils.containsIgnoreCase(message, "wahay") == true)){ // allows all forms of Wahey and Wahay (e.g. WahEY and waHaY)
             starttime = System.currentTimeMillis(); //always resets the time to 0 if a wahey is posted beause 45 seconds after no waheys are posted the bot will either post the count or do nothing if the count is less than 15
@@ -49,7 +53,7 @@ public class WaheyBot extends PircBot{
 
         else if(((nonwaheys >= 5) && (messagesent == false)) || ((System.currentTimeMillis() - starttime > 45000) && (messagesent == false))){ //This gets confusing so bare with me
         	try{ //reads highscore file
-				highscores = utilities.readhighscore();
+				highscores = utilities.readHighScore();
 			}catch(IOException e){
 			};
             speak(channel, "Chat had " + waheymessage + " messages containing Wahey and " + wahey + " individual Wahey's!" + " We also sent Waheys at " + ((double)wahey/(waheypersecondtimeend-waheypersecondtime)) + " per second!"); //posts the waheys it has counted and the messages and the waheys per second
@@ -100,7 +104,7 @@ public class WaheyBot extends PircBot{
             if(message.equalsIgnoreCase("!kungfu")){
                 speak(channel, "God, KungFu is such a butt face");
             }
-            if(message.equalsIgnoreCase("!DCW") || (StringUtils.containsIgnoreCase(message, "DCW")) && (StringUtils.containsIgnoreCase(message, "?"))){
+            if(message.equalsIgnoreCase("!DCW") || (StringUtils.containsIgnoreCase(message, "DCW")) && (StringUtils.containsIgnoreCase(message, "?")) || (StringUtils.containsIgnoreCase(message, "DCW")) && (StringUtils.containsIgnoreCase(message, "what"))){
                 speak(channel, "@" + sender + ", DCW stands for Delayed Cutscene Warp and is basically a Wrong Warp to the final boss using an exploit in Witchyworld. The Any% w/DCW WR takes just under an hour, but without DCW the WR is just under 3 hours.");
             }
             if(message.equalsIgnoreCase("!SGDQ")){
@@ -110,23 +114,42 @@ public class WaheyBot extends PircBot{
                 speak(channel, "AGDQ stands for Awesome games done quick and is a week long speed running marathon that raises money for charity that takes place usually in January. for more informtation go to https://gamesdonequick.com/");
             }
             if(message.equalsIgnoreCase("!multi")){
-                speak(channel, "http://kadgar.net/live/nospimi99/firedragon764/kungfufruitcup/misskyliee");
+                speak(channel, "http://kadgar.net/live/nospimi99/jctomo or http://multitwitch.tv/nospimi99/jctomo");
             }
             if(message.equalsIgnoreCase("!waheyrecord")){
                 try{
-                    highscores = utilities.readhighscore();
+                    highscores = utilities.readHighScore();
                 }catch(IOException e){
                 };
                 speak(channel, "The record for the most messages containing Wahey is " + highscores[0] + " and the record for the most individual Waheys is " + highscores[1] + "!");
             }
         }
+        if(message.equals("!wr")){
+            boolean categoryfound = false;
+            String srurl = "http://www.speedrun.com/api_records.php?game=" + StringUtils.replace(game, " ", "%20");
+            String[] categories = utilities.categoryArray(srurl, game);
+            if(categories == null){
+                speak(channel, "Sorry there is no SpeedRun.com leadboards for this game");
+            }
+            for(int i = 0; i < categories.length; i++){
+                if(title.contains(categories[i])){
+                    String time = utilities.timeConversion(Integer.parseInt(utilities.getSRInfo(game, categories[i], "time")));
+                    speak(channel, "The world record for " + game + " " + categories[i] + " is " + time + " by " + utilities.getSRInfo(game, categories[i], "player"));
+                    categoryfound = true;
+                }
+                else if((i == categories.length - 1) && (!title.contains(categories[i])) && (categoryfound == false)){
+                    speak(channel, "It doesn't seem as if the streamer is running " + game + " at the moment.");
+                }
+            }
+        }
+        /*if(message.equals("!channelinfo")){
+            speak(channel, title + " | " + game);
+        }*/
     }
-
-    //this doesn't work I should just remove it
     protected void onJoin(String channel, String sender, String login, String hostname){
-        if (sender.equals("WaheyBot"))
+        if (sender.equals("waheybot"))
         {
-            speak(channel, "/me is now in this channel and ready to count!");
+            //speak(channel, "/me is now in this channel and ready to count!");
         }
         System.out.println(" <" + sender + " entered>");
     }
@@ -144,14 +167,26 @@ public class WaheyBot extends PircBot{
             }
         }
     }
-
-    //made it so I didnt need to type sendMessage(channel, message) all the time and shows the bot's messages in chat
+    //made it so I didnt need to type sendMessage(channel, message) all the time, and this shows the bot's messages in chat
     private void speak(String channel, String message){
         sendMessage(channel, message);
         System.out.println(" WaheyBot: " + message);
     }
 
-    /*private int[] readhighscore() throws IOException{
+    public String getTitle(){
+        return title;
+    }
+    public void setTitle(String channel){
+        title = utilities.streamInfo("status", channel);
+    }
+    public String getGame(){
+        return game;
+    }
+    public void setGame(String channel){
+        game = utilities.streamInfo("game", channel);
+    }
+
+    /*private int[] readHighScore() throws IOException{
     	Scanner scanner = new Scanner(new File("highscore.text"));
 		int i = 0;
 		while(scanner.hasNextInt())
