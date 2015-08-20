@@ -6,6 +6,7 @@ import java.lang.*;
 import java.io.*;
 import org.json.*;
 import java.net.*;
+import java.nio.charset.Charset;
 
 public class WaheyBot extends PircBot{
     int wahey = 0;
@@ -20,6 +21,8 @@ public class WaheyBot extends PircBot{
 
     private String title;
     private String game;
+    private boolean partner;
+    private String uptime;
 
     public WaheyBot(){
         this.setName("WaheyBot");
@@ -85,18 +88,12 @@ public class WaheyBot extends PircBot{
             waheymessage = 0; // ^
         }
         // the following are custom commands and they will soon be moved to a JSON file, but I'm busy.
-        /*if(message.equalsIgnoreCase("!info") || message.equalsIgnoreCase("!information")){
-            speak(channel, "Hi! My name is WaheyBot, and I am a bot made by 911rennsport AKA renn. My initial purpose was to count the number of Waheys posted to chat just to \"annoy\" Nospimi99; however, now I sit in chat and try to be helpful.");
-        }*/
-
         if(message.equalsIgnoreCase("!info") || message.equalsIgnoreCase("!information")){
-            speak(channel, "http://pastebin.com/Pu3Bs5Sw");
+            speak(channel, "Hi! My name is WaheyBot, and I am a bot made by 911rennsport AKA renn. My initial purpose was to count the number of Waheys posted to chat just to \"annoy\" Nospimi99; however, now I sit in chat and try to be helpful.");
         }
-
         if(message.equalsIgnoreCase("!wahey") || message.equalsIgnoreCase("!waheyinfo") || message.equalsIgnoreCase("!wahay") || message.equalsIgnoreCase("!wahayinfo")){
-            speak(channel, "There are no longer any limitations! Let any form of Wahey fly free!");
+            speak(channel, "I count the number of Waheys the chat posts. It doesn't matter how you type it either WAHEY, wAhAy, and WEHay are all valid examples. Let any form of Wahey fly free!");
         }
-
         if(channel.equals("#nospimi99")){
             if(message.equalsIgnoreCase("!tattoo")){
                 speak(channel, "https://pbs.twimg.com/media/B6UWZN7CUAAn-ME.jpg and WIP: https://twitter.com/Nospimi99/status/606279392365387776");
@@ -104,7 +101,7 @@ public class WaheyBot extends PircBot{
             if(message.equalsIgnoreCase("!kungfu")){
                 speak(channel, "God, KungFu is such a butt face");
             }
-            if(message.equalsIgnoreCase("!DCW") || (StringUtils.containsIgnoreCase(message, "DCW")) && (StringUtils.containsIgnoreCase(message, "?")) || (StringUtils.containsIgnoreCase(message, "DCW")) && (StringUtils.containsIgnoreCase(message, "what"))){
+            if(message.equalsIgnoreCase("!DCW") /*|| (StringUtils.containsIgnoreCase(message, "DCW")) && (StringUtils.containsIgnoreCase(message, "?")) || (StringUtils.containsIgnoreCase(message, "DCW")) && (StringUtils.containsIgnoreCase(message, "what"))*/){
                 speak(channel, "@" + sender + ", DCW stands for Delayed Cutscene Warp and is basically a Wrong Warp to the final boss using an exploit in Witchyworld. The Any% w/DCW WR takes just under an hour, but without DCW the WR is just under 3 hours.");
             }
             if(message.equalsIgnoreCase("!SGDQ")){
@@ -116,6 +113,12 @@ public class WaheyBot extends PircBot{
             if(message.equalsIgnoreCase("!multi")){
                 speak(channel, "http://kadgar.net/live/nospimi99/jctomo or http://multitwitch.tv/nospimi99/jctomo");
             }
+            if(message.equalsIgnoreCase("!glitch") /*|| ((StringUtils.containsIgnoreCase(message, "glitch")) && ((StringUtils.containsIgnoreCase(message, "what")) || (StringUtils.containsIgnoreCase(message, "what's")) || (StringUtils.containsIgnoreCase(message, "what is"))))*/){
+                speak(channel, "@" + sender + ", PasteBin to the new glitch http://pastebin.com/5e8mFGEw");
+            }
+            if(message.equalsIgnoreCase("!application")){
+                speak(channel, "http://pastebin.com/3HryRLEe");
+            }
             if(message.equalsIgnoreCase("!waheyrecord")){
                 try{
                     highscores = utilities.readHighScore();
@@ -124,6 +127,12 @@ public class WaheyBot extends PircBot{
                 speak(channel, "The record for the most messages containing Wahey is " + highscores[0] + " and the record for the most individual Waheys is " + highscores[1] + "!");
             }
         }
+        if(message.equalsIgnoreCase("!partnership")){
+            speak(channel, channelname + "'s partnership status is " + partner);
+        }
+        if(message.equalsIgnoreCase("!uptime")){
+            String uptimecut = StringUtils.substringAfter(uptime, "T");
+        }
         if(message.equals("!wr")){
             boolean categoryfound = false;
             String srurl = "http://www.speedrun.com/api_records.php?game=" + StringUtils.replace(game, " ", "%20");
@@ -131,20 +140,32 @@ public class WaheyBot extends PircBot{
             if(categories == null){
                 speak(channel, "Sorry there is no SpeedRun.com leadboards for this game");
             }
-            for(int i = 0; i < categories.length; i++){
-                if(title.contains(categories[i])){
-                    String time = utilities.timeConversion(Integer.parseInt(utilities.getSRInfo(game, categories[i], "time")));
-                    speak(channel, "The world record for " + game + " " + categories[i] + " is " + time + " by " + utilities.getSRInfo(game, categories[i], "player"));
-                    categoryfound = true;
-                }
-                else if((i == categories.length - 1) && (!title.contains(categories[i])) && (categoryfound == false)){
-                    speak(channel, "It doesn't seem as if the streamer is running " + game + " at the moment.");
+
+            else{
+                for(int i = 0; i < categories.length; i++){
+                    if(title.contains(categories[i])){
+                        for(int j = i+1; j < categories.length; j++){
+                            if(categories[j].contains(categories[i]) && title.contains(categories[j])){
+                                String time = utilities.timeConversion(Integer.parseInt(utilities.getSRInfo(game, categories[j], "time")));
+                                speak(channel, "The world record for " + game + " " + categories[j] + " is " + time + " by " + utilities.getSRInfo(game, categories[i], "player"));
+                                categoryfound = true;
+                            }
+                        }
+                        if(categoryfound == false){
+                            String time = utilities.timeConversion(Integer.parseInt(utilities.getSRInfo(game, categories[i], "time")));
+                            speak(channel, "The world record for " + game + " " + categories[i] + " is " + time + " by " + utilities.getSRInfo(game, categories[i], "player"));
+                            categoryfound = true;
+                        }
+                    }
+                    else if((i == categories.length - 1) && (!title.contains(categories[i])) && (categoryfound == false)){
+                        speak(channel, "It doesn't seem as if the streamer is running " + game + " at the moment.");
+                    }
                 }
             }
         }
-        /*if(message.equals("!channelinfo")){
+        if(message.equals("!channelinfo")){
             speak(channel, title + " | " + game);
-        }*/
+        }
     }
     protected void onJoin(String channel, String sender, String login, String hostname){
         if (sender.equals("waheybot"))
@@ -177,15 +198,26 @@ public class WaheyBot extends PircBot{
         return title;
     }
     public void setTitle(String channel){
-        title = utilities.streamInfo("status", channel);
+        title = utilities.channelInfo("status", channel);
     }
     public String getGame(){
         return game;
     }
     public void setGame(String channel){
-        game = utilities.streamInfo("game", channel);
+        game = utilities.channelInfo("game", channel);
     }
-
+    public boolean getPartner(){
+        return partner;
+    }
+    public void setPartner(String channel){
+        partner = Boolean.valueOf(utilities.channelInfo("partner", channel));
+    }
+    public String getStreamUpTime(){
+        return uptime;
+    }
+    public void setStreamUpTime(String channel){
+        uptime = utilities.streamInfo("created_at", channel);
+    }
     /*private int[] readHighScore() throws IOException{
     	Scanner scanner = new Scanner(new File("highscore.text"));
 		int i = 0;

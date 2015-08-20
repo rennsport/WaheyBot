@@ -8,6 +8,7 @@ import java.net.*;
 import org.json.*;
 
 public class utilities{
+	static String correctGameKeyForJSONFile = "";
 	public static int[] readHighScore() throws IOException{ //reads highscores by storing each new int in an int array
 		int [] highscores = new int [2];
     	Scanner scanner = new Scanner(new File("highscore.txt"));
@@ -36,7 +37,7 @@ public class utilities{
         writer.println(individual);
         writer.close();
     }
-	public static String streamInfo(String type, String channel){
+	public static String channelInfo(String type, String channel){
 		try{
 			URL url = new URL("https://api.twitch.tv/kraken/channels/" + channel);
 			InputStream is = url.openStream();
@@ -44,18 +45,49 @@ public class utilities{
 			JSONObject obj = new JSONObject(new JSONTokener(is));
 			String status = (String) obj.get(type);
 			is.close();
-			return status;
+			return status.toString();
 		} catch (Exception e){
 			return null;
 		}
 	}
+	public static String streamInfo(String type, String channel){
+        try{
+            URL url = new URL("https://api.twitch.tv/kraken/streams/" + channel);
+            InputStream is = url.openStream();
+
+            JSONObject obj = new JSONObject(new JSONTokener(is));
+            String status = (String) obj.getJSONObject("stream").get(type);
+            is.close();
+            return status.toString();
+        } catch (Exception e){
+            return null;
+        }
+    }
 	public static String[] categoryArray(String srurl, String game) {
 		ArrayList<String> categories = new ArrayList<String>();
 		try {
 			URL url = new URL(srurl);
 			InputStream is = url.openStream();
 			JSONObject jObject = new JSONObject(new JSONTokener(is));
+			Iterator<?> gameKeys = jObject.keys();
+			String matchedKey;
+
+			while(gameKeys.hasNext()){
+				matchedKey = (String)gameKeys.next();
+	            String key = new String(matchedKey.getBytes("UTF-8"));
+
+	            // Test to see if it passed
+	            //System.out.println(game + " equals " + key + "? :" + game.equals(key));
+
+	            if(key.equals(game)){
+	                game = matchedKey;
+					correctGameKeyForJSONFile = matchedKey;
+	                break;
+	            }
+	        }
+
 			Iterator<?> keys = jObject.getJSONObject(game).keys();
+
 			while(keys.hasNext()){
 				String key = (String)keys.next();
 				if(jObject.getJSONObject(game).get(key) instanceof JSONObject){
@@ -65,6 +97,7 @@ public class utilities{
 			String[] categroiesarray = categories.toArray(new String[categories.size()]);
 			return categroiesarray;
 		} catch(Exception e){
+			//e.printStackTrace();
 			return null;
 		}
 	}
@@ -73,7 +106,8 @@ public class utilities{
         	URL url = new URL("http://www.speedrun.com/api_records.php?game=" + StringUtils.replace(game, " ", "%20"));
         	InputStream is = url.openStream();
 			JSONObject obj = new JSONObject(new JSONTokener(is));
-			String time = obj.getJSONObject(game).getJSONObject(category).getString(info);
+
+			String time = obj.getJSONObject(correctGameKeyForJSONFile).getJSONObject(category).getString(info);
 			is.close();
 			return time;
 		} catch (Exception e){

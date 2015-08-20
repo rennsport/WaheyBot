@@ -37,6 +37,8 @@ public class WaheyBotMain {
                 for(int i = 0; i < bots.size(); i++){
                     bots.get(i).setGame(args[i]);
                     bots.get(i).setTitle(args[i]);
+                    bots.get(i).setPartner(args[i]);
+                    bots.get(i).setStreamUpTime(args[i]);
                 }
             }
         };
