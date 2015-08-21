@@ -90,14 +90,17 @@ public class utilities{
 			Iterator<?> gameKeys = jObject.keys();
 			String matchedKey;
 
-			while(gameKeys.hasNext()){
+
+			while(gameKeys.hasNext())
+			{
 				matchedKey = (String)gameKeys.next();
 	            String key = new String(matchedKey.getBytes("UTF-8"));
 
 	            // Test to see if it passed
-	            //System.out.println(game + " equals " + key + "? :" + game.equals(key));
+	            System.out.println(game + " equals " + key + "? :" + game.equals(key));
 
-	            if(key.equals(game)){
+	            if(key.equals(game))
+				{
 	                game = matchedKey;
 					correctGameKeyForJSONFile = matchedKey;
 	                break;
@@ -114,8 +117,20 @@ public class utilities{
 			}
 			String[] categroiesarray = categories.toArray(new String[categories.size()]);
 			return categroiesarray;
-		} catch(Exception e){
-			//e.printStackTrace();
+		}
+		catch(UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		catch(MalformedURLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -128,7 +143,9 @@ public class utilities{
 			String time = obj.getJSONObject(correctGameKeyForJSONFile).getJSONObject(category).getString(info);
 			is.close();
 			return time;
-		} catch (Exception e){
+		}
+		catch (Exception e)
+		{
 			return null;
 		}
     }

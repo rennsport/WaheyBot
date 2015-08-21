@@ -6,6 +6,13 @@ import java.util.*;
 
 public class WaheyBotMain {
 
+    private static String[] channels;
+
+    public static String[] getChannels()
+    {
+        return channels;
+    }
+
     public static void main(final String[] args) throws Exception {
 
         String oauth = utilities.readFile("oauth.txt"); //Create an oauth.txt file in the running directory
@@ -21,7 +28,7 @@ public class WaheyBotMain {
         // The twitch username to login to with the bot.
         String username = "";
 
-        String[] channels = null;
+        channels = null;
 
         for(int i = 0; i < args.length; i++)
         {
@@ -127,18 +134,23 @@ public class WaheyBotMain {
         //bot.sendRawLine("CAP REQ :twitch.tv/commands");
 
         //Updates Game and Title from Twitch per channel.
+
         Timer timer = new Timer();
+
         TimerTask hourlyTask = new TimerTask() {
             @Override
             public void run () {
-                for(int i = 0; i < bots.size(); i++){
-                    bots.get(i).setGame(args[i]);
-                    bots.get(i).setTitle(args[i]);
-                    bots.get(i).setPartner(args[i]);
-                    bots.get(i).setStreamUpTime(args[i]);
+                System.out.println("[INFO] Reloading stream args.");
+                for(int i = 0; i < bots.size(); i++)
+                {
+                    bots.get(i).setGame(channels[i]);
+                    bots.get(i).setTitle(channels[i]);
+                    bots.get(i).setPartner(channels[i]);
+                    bots.get(i).setStreamUpTime(channels[i]);
                 }
             }
         };
+
         timer.schedule (hourlyTask, 0l, 1000*60);
     }
 }

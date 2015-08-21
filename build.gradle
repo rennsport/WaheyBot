@@ -16,3 +16,14 @@ dependencies {
     compile 'pircbot:pircbot:1.5.0'
     compile 'org.json:json:20141113'
 }
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'io.rennsport.WaheyBotMain'
+        )
+    }
+    from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
