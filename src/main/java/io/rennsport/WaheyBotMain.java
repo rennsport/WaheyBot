@@ -1,3 +1,5 @@
+package io.rennsport;
+
 import org.jibble.pircbot.*;
 import org.apache.commons.lang3.*;
 import java.util.*;

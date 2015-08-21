@@ -1,3 +1,9 @@
 *.class
 *.jar
 *.txt
+*.iml
+.idea/
+build/
+.git/
+gradle/
+.gradle/
