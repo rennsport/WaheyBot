@@ -5,5 +5,4 @@
 .idea
 build
 .git
-gradle
 .gradle
