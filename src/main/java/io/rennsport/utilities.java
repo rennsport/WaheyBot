@@ -65,6 +65,22 @@ public class utilities{
             return null;
         }
     }
+
+	// Takes a string in and encodes it in UTF-8
+	public static String strToUTF8(String str)
+	{
+		try
+		{
+			return new String(str.getBytes("UTF-8"));
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+			System.out.println("[FATAL] Failed to encode string to UTF-8! This should not happen!");
+			return null;
+		}
+	}
+
 	public static String[] categoryArray(String srurl, String game) {
 		ArrayList<String> categories = new ArrayList<String>();
 		try {
