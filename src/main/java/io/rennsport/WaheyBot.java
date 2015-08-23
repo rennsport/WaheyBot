@@ -1,3 +1,5 @@
+package io.rennsport;
+
 import org.jibble.pircbot.*;
 import org.apache.commons.lang3.*;
 import java.util.*;
@@ -24,8 +26,8 @@ public class WaheyBot extends PircBot{
     private boolean partner;
     private String uptime;
 
-    public WaheyBot(){
-        this.setName("WaheyBot");
+    public WaheyBot(String twitchName){
+        this.setName(twitchName);
     }
     public void onMessage(String channel, String sender, String login, String hostname, String message){ //detects the first Wahey and allows future ones to be counted.
         String channelname = channel.substring(1);
@@ -133,33 +135,60 @@ public class WaheyBot extends PircBot{
         if(message.equalsIgnoreCase("!uptime")){
             String uptimecut = StringUtils.substringAfter(uptime, "T");
         }
-        if(message.equals("!wr")){
-            boolean categoryfound = false;
-            String srurl = "http://www.speedrun.com/api_records.php?game=" + StringUtils.replace(game, " ", "%20");
-            String[] categories = utilities.categoryArray(srurl, game);
-            if(categories == null){
-                speak(channel, "Sorry there is no SpeedRun.com leadboards for this game");
-            }
+        if(message.equals("!wr")) // Someone is requesting the World Record time for the current game.
+        {
 
-            else{
-                for(int i = 0; i < categories.length; i++){
-                    if(title.contains(categories[i])){
-                        for(int j = i+1; j < categories.length; j++){
-                            if(categories[j].contains(categories[i]) && title.contains(categories[j])){
-                                String time = utilities.timeConversion(Integer.parseInt(utilities.getSRInfo(game, categories[j], "time")));
-                                speak(channel, "The world record for " + game + " " + categories[j] + " is " + time + " by " + utilities.getSRInfo(game, categories[i], "player"));
-                                categoryfound = true;
-                            }
-                        }
-                        if(categoryfound == false){
-                            String time = utilities.timeConversion(Integer.parseInt(utilities.getSRInfo(game, categories[i], "time")));
-                            speak(channel, "The world record for " + game + " " + categories[i] + " is " + time + " by " + utilities.getSRInfo(game, categories[i], "player"));
-                            categoryfound = true;
+            String srurl = "http://www.speedrun.com/api_records.php?game=" + StringUtils.replace(game, " ", "%20");
+
+            String[] categories = utilities.categoryArray(srurl, game);
+
+            if(categories == null)
+            {
+                speak(channel, "Sorry there are no SpeedRun.com leaderboards for this game.");
+            }
+            else
+            {
+                String catToSend = "";
+                boolean titleHasCat = false;
+
+                // For each category..
+                for(int i = 0; i < categories.length; i++)
+                {
+                    String currentCategoryRaw = categories[i];
+                    String currentCategoryUTF = utilities.strToUTF8(categories[i]);
+
+                    titleHasCat = title.contains(currentCategoryUTF);
+
+                    String titleHasStr = titleHasCat ? "contains " : "does NOT contain ";
+
+                    System.out.println("[INFO] Found category \"" + currentCategoryUTF + "\"\n"
+                                    + "[INFO] The title " + titleHasStr
+                                    + "the category \""
+                                    + currentCategoryUTF + "\""
+                    );
+
+                    // If the stream title contains the current category
+                    if(titleHasCat)
+                    {
+                        // If the current category is longer than the previous one.
+                        if(currentCategoryRaw.length() > catToSend.length())
+                        {
+                            // Use the longer category instead.
+                            catToSend = currentCategoryRaw;
                         }
                     }
-                    else if((i == categories.length - 1) && (!title.contains(categories[i])) && (categoryfound == false)){
-                        speak(channel, "It doesn't seem as if the streamer is running " + game + " at the moment.");
-                    }
+                }
+
+                // Send the message if it exists (if catToSend does NOT equal "".
+                if(!catToSend.equals(""))
+                {
+                    String time = utilities.timeConversion(Integer.parseInt(utilities.getSRInfo(game, catToSend, "time")));
+                    speak(channel, "The world record for " + game + " " + catToSend + " is " + time + " by " + utilities.getSRInfo(game, catToSend, "player"));
+                }
+                else
+                {
+                    speak(channel, "Good job, you broke something... Couldn't find a matching category for "
+                                    + game + ".");
                 }
             }
         }
@@ -194,10 +223,13 @@ public class WaheyBot extends PircBot{
         System.out.println(" WaheyBot: " + message);
     }
 
-    public String getTitle(){
+    public String getTitle()
+    {
         return title;
     }
-    public void setTitle(String channel){
+
+    public void setTitle(String channel)
+    {
         title = utilities.channelInfo("status", channel);
     }
     public String getGame(){
