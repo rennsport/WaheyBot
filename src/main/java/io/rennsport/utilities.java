@@ -1,3 +1,5 @@
+package io.rennsport;
+
 import org.jibble.pircbot.*;
 import org.apache.commons.lang3.*;
 import java.util.*;
@@ -63,6 +65,22 @@ public class utilities{
             return null;
         }
     }
+
+	// Takes a string in and encodes it in UTF-8
+	public static String strToUTF8(String str)
+	{
+		try
+		{
+			return new String(str.getBytes("UTF-8"));
+		}
+		catch (UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+			System.out.println("[FATAL] Failed to encode string to UTF-8! This should not happen!");
+			return null;
+		}
+	}
+
 	public static String[] categoryArray(String srurl, String game) {
 		ArrayList<String> categories = new ArrayList<String>();
 		try {
@@ -72,14 +90,17 @@ public class utilities{
 			Iterator<?> gameKeys = jObject.keys();
 			String matchedKey;
 
-			while(gameKeys.hasNext()){
+
+			while(gameKeys.hasNext())
+			{
 				matchedKey = (String)gameKeys.next();
 	            String key = new String(matchedKey.getBytes("UTF-8"));
 
 	            // Test to see if it passed
-	            //System.out.println(game + " equals " + key + "? :" + game.equals(key));
+	            System.out.println(game + " equals " + key + "? :" + game.equals(key));
 
-	            if(key.equals(game)){
+	            if(key.equals(game))
+				{
 	                game = matchedKey;
 					correctGameKeyForJSONFile = matchedKey;
 	                break;
@@ -96,8 +117,20 @@ public class utilities{
 			}
 			String[] categroiesarray = categories.toArray(new String[categories.size()]);
 			return categroiesarray;
-		} catch(Exception e){
-			//e.printStackTrace();
+		}
+		catch(UnsupportedEncodingException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		catch(MalformedURLException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
 			return null;
 		}
 	}
@@ -110,7 +143,9 @@ public class utilities{
 			String time = obj.getJSONObject(correctGameKeyForJSONFile).getJSONObject(category).getString(info);
 			is.close();
 			return time;
-		} catch (Exception e){
+		}
+		catch (Exception e)
+		{
 			return null;
 		}
     }

@@ -1,3 +1,9 @@
 *.class
 *.jar
+!gradle-wrapper.jar
 *.txt
+*.iml
+.idea
+build
+.git
+.gradle
