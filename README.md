@@ -2,10 +2,10 @@
 A Java based Twitch bot; its main function is to count Waheys in chat (or any other keyword). 
 To compile the bot (it may vary from OS to OS):
 Windows:
-<pre><code>gradle.bat</code></pre>
+<pre><code>gradlew build</code></pre>
 
 OS X:
-<pre><code>./gradle.bat</code></pre>
+<pre><code>./gradlew build</code></pre>
 
 To run the bot:
 <pre><code>java -jar /path/to/waheybot-1.0-SNAPSHOT.jar -username “twitch username” -channels “channel1”,”channel2”,”channeln”
