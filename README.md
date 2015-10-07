@@ -1,20 +1,25 @@
 # WaheyBot
-A Java based Twitch bot; its main function is to count Waheys in chat (or any other keyword). 
+A Java based Twitch bot; its main function is to count Waheys in chat (or any other keyword).
+
 To compile the bot (it may vary from OS to OS):
+
 Windows:
-<pre><code>gradlew build</code></pre>
+
+`gradlew build`
 
 OS X:
-<pre><code>./gradlew build</code></pre>
+
+`./gradlew build</code></pre>`
 
 To run the bot:
-<pre><code>java -jar /path/to/waheybot-1.0-SNAPSHOT.jar -username “twitch username” -channels “channel1”,”channel2”,”channeln”
-</code></pre>
+
+`java -jar /path/to/waheybot-1.0-SNAPSHOT.jar -username “twitch username” -channels “channel1”,”channel2”,”channeln”`
+
 
 
 ### Dependencies (They are handled with gradle now):
-  - [Apache Commons Lang]
-  - [pIRCBot]
+  - [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/)
+  - [pIRCBot](http://www.jibble.org/pircbot.php)
 
 ### Future Features:
 1. Improve the !wr command
@@ -25,7 +30,3 @@ To run the bot:
 
 ### Dropped Ideas:
 1. Decided against moving from pIRCBot to pIRCBotX
-
-[apache commons lang]:https://commons.apache.org/proper/commons-lang/
-[pircbot]:http://www.jibble.org/pircbot.php
-[pircbotx]:https://code.google.com/p/pircbotx/
