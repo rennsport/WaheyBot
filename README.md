@@ -9,11 +9,11 @@ Windows:
 
 OS X:
 
-`./gradlew build</code></pre>`
+`./gradlew build\`
 
 To run the bot:
 
-`java -jar /path/to/waheybot-1.0-SNAPSHOT.jar -username “twitch username” -channels “channel1”,”channel2”,”channeln”`
+```java -jar /path/to/waheybot-1.0-SNAPSHOT.jar -username “twitch username” -channels “channel1”,”channel2”,”channeln”```
 
 
 
