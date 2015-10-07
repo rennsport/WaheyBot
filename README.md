@@ -9,7 +9,7 @@ Windows:
 
 OS X:
 
-`./gradlew build\`
+`./gradlew build`
 
 To run the bot:
 
