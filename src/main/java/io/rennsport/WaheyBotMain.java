@@ -137,7 +137,7 @@ public class WaheyBotMain {
 
         Timer timer = new Timer();
 
-        TimerTask hourlyTask = new TimerTask() {
+        TimerTask minuteTask = new TimerTask() {
             @Override
             public void run () {
                 System.out.println("[INFO] Reloading stream args.");
@@ -151,6 +151,17 @@ public class WaheyBotMain {
             }
         };
 
-        timer.schedule (hourlyTask, 0l, 1000*60);
+        // TimerTask fifteenMinutes = new TimerTask() {
+        //     @Override
+        //     public void run () {
+        //         for(int i = 0; i < bots.size(); i++)
+        //         {
+        //             bots.get(i).sendMessage('#' + channels[i], "Hey there! We have a lot of new people in here because of the front page, so mods are going to be more strict with purges/timeouts/bans so make sure to check out the rules below! If you're on mobile, tap the screen and press the 'i' button to see them!");
+        //         }
+        //     }
+        // };
+        //
+        // timer.schedule (minuteTask, 0l, 1000*60);
+        // timer.schedule (fifteenMinutes, 0l, 1000*31);
     }
 }

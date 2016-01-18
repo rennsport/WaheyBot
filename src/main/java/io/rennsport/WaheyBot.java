@@ -100,6 +100,12 @@ public class WaheyBot extends PircBot{
             if(message.equalsIgnoreCase("!tattoo")){
                 speak(channel, "https://pbs.twimg.com/media/B6UWZN7CUAAn-ME.jpg and WIP: https://twitter.com/Nospimi99/status/606279392365387776");
             }
+            if(message.equalsIgnoreCase("!sub")){
+                speak(channel, "http://www.twitch.tv/nospimi99/subscribe");
+            }
+            if(message.equalsIgnoreCase("!emotes")){
+                speak(channel, "Sub Emotes: nossyHi nossyDerp nossyLove nossyPanic nossyParty nossyHelp nossyWAT nossySplit FrankerFaceZ Emotes: BOKUM ChibiQuil EEKUM LizDerp LoveBag NapTime nosGlod nosHeart nosWhoosh nosWin");
+            }
             if(message.equalsIgnoreCase("!kungfu")){
                 speak(channel, "God, KungFu is such a butt face");
             }
@@ -118,9 +124,6 @@ public class WaheyBot extends PircBot{
             if(message.equalsIgnoreCase("!glitch") /*|| ((StringUtils.containsIgnoreCase(message, "glitch")) && ((StringUtils.containsIgnoreCase(message, "what")) || (StringUtils.containsIgnoreCase(message, "what's")) || (StringUtils.containsIgnoreCase(message, "what is"))))*/){
                 speak(channel, "@" + sender + ", PasteBin to the new glitch http://pastebin.com/5e8mFGEw");
             }
-            if(message.equalsIgnoreCase("!application")){
-                speak(channel, "http://pastebin.com/3HryRLEe");
-            }
             if(message.equalsIgnoreCase("!waheyrecord")){
                 try{
                     highscores = utilities.readHighScore();
@@ -129,12 +132,7 @@ public class WaheyBot extends PircBot{
                 speak(channel, "The record for the most messages containing Wahey is " + highscores[0] + " and the record for the most individual Waheys is " + highscores[1] + "!");
             }
         }
-        if(message.equalsIgnoreCase("!partnership")){
-            speak(channel, channelname + "'s partnership status is " + partner);
-        }
-        if(message.equalsIgnoreCase("!uptime")){
-            String uptimecut = StringUtils.substringAfter(uptime, "T");
-        }
+
         if(message.equals("!wr")) // Someone is requesting the World Record time for the current game.
         {
 
