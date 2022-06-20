@@ -1,3 +1,5 @@
+### There is no longer any support for this project. Twitch's APIs have changed and the original purpose of the bot is no longer needed. The repository is now archived. 
+
 # WaheyBot
 A Java based Twitch bot; its main function is to count Waheys in chat (or any other keyword). 
 To compile the bot (it may vary from OS to OS):
